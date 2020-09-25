@@ -48,7 +48,7 @@ public class JbdcTacoRepository implements TacoRepository {
         taco.setCreatedAt(new Date());
 
         PreparedStatementCreator preparedStatementCreator = new PreparedStatementCreatorFactory(
-                "insert into Taco (name, created_at) values (?, ?)",
+                "insert into Taco (name, createdAt) values (?, ?)",
                 Types.VARCHAR,
                 Types.TIMESTAMP
         ).newPreparedStatementCreator(
@@ -56,7 +56,7 @@ public class JbdcTacoRepository implements TacoRepository {
                         new Timestamp(taco.getCreatedAt().getTime())));
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(preparedStatementCreator, keyHolder);
+        int update = jdbcTemplate.update(preparedStatementCreator, keyHolder);
 
         return keyHolder.getKey().longValue();
     }
